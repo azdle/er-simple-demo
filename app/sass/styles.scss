@@ -1,0 +1,224 @@
+$mui-accent-color: #FF9300;
+$mui-btn-primary-bg-color: #00bcd4;
+
+//using mui-css just for basic CSS "reset" stuff. Prefer Material-UI components.
+@import "node_modules/muicss/lib/sass/mui";
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+//
+//.appbar {
+//  img.logo {
+//    width: auto;
+//    height: 40px;
+//    margin-top: -5px;
+//  }
+//}
+
+.appbar-logo-container {
+  margin: 15px auto;
+  float:left;
+  position:relative;
+  left: 54%;
+
+  img {
+    width: 30px;
+  }
+}
+
+.masthead {
+  height: 100px;
+  background-color: #38C4DE;
+  color: #ffffff;
+
+  .headline {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    position: relative;
+    top: 60%;
+    margin-left: 25px;
+  }
+}
+
+.logo-container {
+  max-width: 160px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.nav-bar {
+  height:30px;
+  padding: 5px 10px;
+  margin: 10px 0;
+
+  .home-icon {
+    color: #FFFFFF;
+    margin-top:5px;
+    display: inline-block;
+  }
+}
+
+.login-button, .signup-button {
+  width:100%;
+}
+
+.forgot-password-button {
+  width: 100%;
+}
+
+footer.version {
+  text-align: center;
+  margin: 25px 0;
+}
+
+textarea {
+  height: 8em;
+}
+
+
+.add-device-btn {
+  float:right;
+}
+
+.device-list-item {
+  padding:15px 0 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+
+  .name-and-serial {
+    padding-top: 3px;
+  }
+
+  .serialnumber {
+    font-size: smaller;
+    color: #777777;
+  }
+
+  .status-icon-col {
+     padding-top: -5px;
+  }
+
+  .status-icon {
+    padding:5px;
+    border-radius: 24px;
+    border: 1px solid #efefef;
+
+    &.on {
+      background-color: #FBED21;
+      color:white;
+    }
+
+    &.off {
+      background-color: #e9e9e9;
+    }
+  }
+}
+
+/* Message Boxes */
+.messagebox {
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.messagebox.info {
+  color: #00529B;
+  background-color: #FFFFFF;
+}
+.messagebox.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.messagebox.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.messagebox.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+
+
+/* Spinner */
+
+/**
+ * (C)Leanest CSS spinner ever
+ */
+
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}
+
+.progress {
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 5em;
+  margin: 0 .5em;
+  font-size: 12px;
+  text-indent: 999em;
+  overflow: hidden;
+  animation: spin 1s infinite steps(8);
+}
+
+.small.progress {
+  font-size: 4px;
+}
+
+.large.progress {
+  font-size: 24px;
+}
+
+.progress:before,
+.progress:after,
+.progress > div:before,
+.progress > div:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2.25em; /* (container width - part width)/2  */
+  width: .5em;
+  height: 1.5em;
+  border-radius: .2em;
+  background: #eee;
+  box-shadow: 0 3.5em #eee; /* container height - part height */
+  transform-origin: 50% 2.5em; /* container height / 2 */
+}
+
+.progress:before {
+  background: #555;
+}
+
+.progress:after {
+  transform: rotate(-45deg);
+  background: #777;
+}
+
+.progress > div:before {
+  transform: rotate(-90deg);
+  background: #999;
+}
+
+.progress > div:after {
+  transform: rotate(-135deg);
+  background: #bbb;
+}
+
+form {
+  .progress {
+    left: 45%;
+  }
+}
