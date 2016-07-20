@@ -226,6 +226,88 @@ function lookup_all_dataport_called_with_workaround( name, pid )
   return dataports
 end
 
+function lookup_and_read_all_dataport_called_with_workaround( name, pid )
+  resp = Device.rpcCall({
+    pid = pid,
+    auth = {},
+    calls = {{
+      id = "1",
+      procedure = "listing",
+      arguments = {
+        {alias = ""},
+        {"client"},
+        {}
+      }
+    }}
+  })
+
+  local clients = resp[1].result.client
+  local calls = {}
+
+  for i,rid in ipairs(clients) do
+    table.insert(calls, {
+      id = i,
+      procedure = "info",
+      arguments = {
+        rid,
+        {aliases = true}
+      }
+    })
+  end
+
+  resp = Device.rpcCall({
+    pid = pid,
+    auth = {},
+    calls = calls
+  })
+
+  local dataports = {}
+
+  --wsdebug(clients)
+
+  for i,call_resp in ipairs(resp) do
+    local aliases = call_resp.result.aliases
+    for rid,alias_list in pairs(aliases) do
+      for j,alias in ipairs(alias_list) do
+        if alias == name then
+          table.insert(dataports, {
+            rid = rid,
+            parent_rid = clients[i]
+          })
+        end
+      end
+    end
+  end
+
+  --wsdebug(dataports)
+
+  for i,dataport in ipairs(dataports) do
+    resp = Device.rpcCall({
+      pid = pid,
+      auth = {client_id = dataport.parent_rid},
+      calls = {{
+        id = "1",
+        procedure = "read",
+        arguments = {
+          dataport.rid,
+          {}
+        }
+      }}
+    })
+
+    if resp[1].status == "ok" then
+      dataports[i].value = resp[1].result[1][2]
+      dataports[i].timestamp = resp[1].result[1][1]
+    else
+      wsdebug(dataport.parent_rid)
+      wsdebug(resp)
+    end
+
+  end
+
+  return dataports
+end
+
 function write_all_called(pid, name, value)
   for i,dataport in ipairs(lookup_all_dataport_called_with_workaround(name, pid)) do
     resp = Device.rpcCall({

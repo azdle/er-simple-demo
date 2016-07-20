@@ -12,6 +12,18 @@ local key = tostring(request.parameters.key)
 local resp = Keystore.delete{key = key}
 return resp
 
+--#ENDPOINT GET /debug/party_start
+resp = Timer.sendInterval{
+  message = {
+    pid = "ta7lsaumvswz5mi"
+  },
+  duration = 1000,
+  timer_id = "party_tick"
+}
+return resp
+
+
+
 --#ENDPOINT GET /debug/scratch
 return lookup_all_dataport_called( "party_leds", "ta7lsaumvswz5mi" )
 

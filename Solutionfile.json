@@ -11,6 +11,9 @@
   "event_handler": {
     "device": {
       "datapoint": "service_handlers/product.lua"
+    },
+    "timer": {
+      "timer": "service_handlers/timer.lua"
     }
   }
 }

@@ -2,7 +2,7 @@
 -- Product Event Handler
 -- Handle data events
 
-wsdebug{product_event = data}
+--wsdebug{product_event = data}
 
 -- make local references
 local sn = data.device_sn
@@ -47,25 +47,25 @@ for i,full_id in ipairs(subscribers) do
 end
 
 if name == "party_on_off" then
-  if value == "0" then
-    Device.write({
-      values = {party_leds = 0},
+  if tonumber(value) == 0 then
+    resp = Device.write({
       pid = "ta7lsaumvswz5mi",
-      device_sn = sn
+      ["device_sn"] = sn,
+      ["party_leds"] = 0
     })
 
-    -- save RID of devices that wants to party
+    wsdebug({
+      pid = "ta7lsaumvswz5mi",
+      ["device_sn"] = sn,
+      ["party_leds"] = 0
+    })
+    wsdebug(resp)
+
+    -- device is done partying, remove RID from list
     local full_id = pid .. "/" .. rid
     del_kv_list("party_people", full_id)
   else
-    Device.write({
-      alias = "party_leds",
-      value = math.random(0,7),
-      pid = "ta7lsaumvswz5mi",
-      device_sn = sn
-    })
-
-    -- device is done partying, remove RID from list
+    -- save RID of devices that wants to party
     local full_id = pid .. "/" .. rid
     put_kv_list("party_people", full_id)
   end
