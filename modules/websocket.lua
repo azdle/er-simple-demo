@@ -31,7 +31,7 @@ function handle_ws_message(e)
   elseif msg.type == "write" then
     if type(msg.sn) ~= "string" or
        type(msg.name) ~= "string" or
-       type(msg.value) ~= "string" then
+       type(msg.value) == nil then
       return {
         type = "error",
         id = msg.id,
