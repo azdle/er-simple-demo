@@ -5,13 +5,9 @@ function handle_ws_event(e)
   if e.type == "data" then
     return handle_ws_message(e)
   elseif e.type == "open" then
-    ws_subscribe(e.socket_id, e.server_ip)
-    return {
-      type = "state",
-      data = get_device_list({'count', 'leds'}, nil)
-    }
+    return ws_subscribe(e.socket_id, e.server_ip)
   elseif e.type == "close" then
-    ws_unsubscribe(e.socket_id, e.server_ip)
+    return ws_unsubscribe(e.socket_id, e.server_ip)
   end
 end
 
@@ -65,10 +61,17 @@ end
 function ws_subscribe(socket_id, server_ip)
   local full_id = tostring(socket_id) .. "/" .. tostring(server_ip)
   Keystore.command{key = "subscribers", command = "lpush", args = {full_id}}
+
+  return {
+    type = "state",
+    data = get_device_list({'count', 'leds'}, nil)
+  }
 end
 
 -- unsubscribe this websocket from this device
 function ws_unsubscribe(socket_id, server_ip)
   local full_id = tostring(socket_id) .. "/" .. tostring(server_ip)
   Keystore.command{key = "subscribers", command = "lrem", args = {0 ,full_id}}
+
+  return nil -- no more connection, can't send anything
 end
