@@ -170,7 +170,7 @@ function lookup_device_rid( sn, pid )
 
   for rid,alias_list in pairs(aliases) do
     for i,alias in ipairs(alias_list) do
-      if alias == "d8803975c533" then
+      if alias == sn then
         return rid
       end
     end
