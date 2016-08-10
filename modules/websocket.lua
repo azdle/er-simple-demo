@@ -64,7 +64,7 @@ function ws_subscribe(socket_id, server_ip)
 
   return {
     type = "state",
-    data = get_device_list({'count', 'leds'}, nil)
+    data = get_device_list_full_with_data({"count", "leds"}, "ta7lsaumvswz5mi")
   }
 end
 

@@ -33,6 +33,64 @@ function get_device_list( metrics, window )
   return resp
 end
 
+function get_device_list_full_with_data( metrics, pid )
+  -- get list of child RIDs
+  resp = Device.rpcCall({
+    pid = pid,
+    auth = {},
+    calls = {{
+      id = "1",
+      procedure = "info",
+      arguments = {
+        {alias = ""},
+        {aliases = true}
+      }
+    }}
+  })
+
+  local aliases_list = resp[1].result.aliases
+  local devices = {}
+
+  -- get current values
+  for rid,aliases in pairs(aliases_list) do
+    local alias = aliases[1]
+    local calls = {}
+
+    for i,metric in ipairs(metrics) do
+      table.insert(calls, {
+        id = metric,
+        procedure = "read",
+        arguments = {
+          {alias = metric},
+          {}
+        }
+      })
+    end
+
+    resp = Device.rpcCall({
+      pid = pid,
+      auth = {client_id = rid},
+      calls = calls
+    })
+
+    devices[alias] = {
+      values = {}
+    }
+
+    for i,result in ipairs(resp) do
+      if result.status == "ok" then
+        devices[alias].values[result.id] = result.result[1][2] --213
+      else
+        --wsdebug(rid)
+        --wsdebug(resp)
+        devices[alias].values[result.id] = "<no data>"
+      end
+    end
+  end
+
+  return devices
+end
+
 function set_values( sn, values, push_to_device )
   for name,value in pairs(values) do
     wsdebug("set value called")

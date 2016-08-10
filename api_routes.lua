@@ -25,7 +25,8 @@ return resp
 
 
 --#ENDPOINT GET /debug/scratch
-return lookup_all_dataport_called( "party_leds", "ta7lsaumvswz5mi" )
+return get_device_list({"count", "leds"})
+--return get_device_list_full_with_data({"count", "leds"}, "ta7lsaumvswz5mi")
 
 --#ENDPOINT GET /debug/writeall
 local value = tostring(request.parameters.value)
