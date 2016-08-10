@@ -114,7 +114,7 @@ export default React.createClass({
   setValue(sn, name, value) {
     let msg = {
       type: "write",
-      id: Math.random() * 100000,
+      id: Math.floor(Math.random() * 100000),
       sn: sn,
       name: name,
       value: value
