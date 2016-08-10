@@ -48,8 +48,8 @@ export default React.createClass({
     ws.onerror = (error) => {
       this.setState((previousState, currentProps) => {
         let errorObj = {
-          id: Math.max(...[0, ...previousState.map(a => a.id)]) + 1,
-          msg: error
+          id: Math.max(...[0, ...previousState.pageErrors.map(a => a.id)]) + 1,
+          msg: "Connection Problem Detected -- You may need to refresh your browser."
         }
 
         let newPageErrors = [...previousState.pageErrors, errorObj]
@@ -134,7 +134,7 @@ export default React.createClass({
     let error_message = (
       this.state.pageErrors.length == 0
       ? <div></div>
-      : <div className='messagebox error'>{this.context.store.getState().auth.error}</div>
+      : <div className='messagebox error'>{this.state.pageErrors.slice(-1)[0].msg}</div>
     );
 
     console.log("xxx")
@@ -195,6 +195,8 @@ export default React.createClass({
       <div>
         <AppBar title={this.props.params.sn}
                 iconElementLeft={ <IconButton onClick={()=> hashHistory.push("/devices")}><ChevronLeft /></IconButton> } />
+
+        {error_message}
 
         {main_content}
 
