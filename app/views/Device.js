@@ -172,8 +172,8 @@ export default React.createClass({
         }
         return (
           <ListItem leftIcon={<RouterIcon />}
-                    primaryText={name || "<no name>"}
-                    secondaryText={data[name] || "<no value>"}
+                    primaryText={typeof name !== 'undefined' ? String(name) : "<no value>"}
+                    secondaryText={typeof data[name] !== 'undefined' ? String(data[name]) : "<no value>"}
                     disabled={true}
                     rightToggle={toggle}
                     key={name} />
